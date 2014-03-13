@@ -7,6 +7,7 @@
  * Author: Jay Versluis
  * Author URI: http://wpguru.co.uk
  * License: GPL2
+ * License URI:  http://www.gnu.org/licenses/gpl-2.0.html
  */
  
 /*  Copyright 2013  Jay Versluis (email support@wpguru.co.uk)
@@ -25,23 +26,16 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-// Add a new submenu under DASHBOARD
+// add submenu page under Tools
 function ctw_menu() {
-	
-	// using a wrapper function (easy, but not good for adding JS later - hence not used)
-	// add_dashboard_page('Plugin Starter', 'Plugin Starter', 'administrator', 'pluginStarter', 'pluginStarter');
-	
-	// using array - same outcome, and can call JS with it
-	// explained here: http://codex.wordpress.org/Function_Reference/wp_enqueue_script
-	// and here: http://pippinsplugins.com/loading-scripts-correctly-in-the-wordpress-admin/
 	global $starter_plugin_admin_page;
 	$starter_plugin_admin_page = add_submenu_page ('tools.php', __('Child Theme Wizard', 'ctw'), __('Child Theme Wizard', 'ctw'), 'manage_options', 'ChildThemeWizard', 'ctwMainFunction');
 }
 add_action('admin_menu', 'ctw_menu');
 
 
-////////////////////////////////////////////
-// here's the code for the actual admin page
+///////////////////////////////////////////////
+// main function that generates the  admin page
 function ctwMainFunction () {
 	
 // check that the user has the required capability 
@@ -57,7 +51,7 @@ function ctwMainFunction () {
 	// display heading with icon WP style
 	?>
     <div class="wrap">
-<div id="icon-index" class="icon32"><br></div>
+    <div id="icon-index" class="icon32"><br></div>
     <h2>Child Theme Wizard</h2>
     
     <?php
@@ -77,23 +71,45 @@ function ctwMainFunction () {
 		'include-gpl' => $_POST['include-gpl'],
 		);
 		
-		// let's see if this worked
-		// ctw_create_theme($newchildtheme);
-		ctw_testing($newchildtheme);
+		// create child theme - let's see if this worked
+		$status = ctw_create_theme($newchildtheme);
+		// ctw_testing($newchildtheme);
 		
 		// Put a "settings updated" message on the screen 
-		?>
-		<div class="updated">
-		  <p><strong>
-		  <?php _e('Create button was clicked!', 'ctw' ); ?>
-          </strong></p>
-		</div>
-		<?php } else {
+		if ($status['alert'] == -1) {
+			// panic - there was an error
+			?>
+            <div class="error">
+		    <strong><p>Yikes - something went wrong:</p>
+            <?php echo $status['message']; ?>
+            </strong>
+		    </div>
+            <div><strong><p>Would you like to <a href="<?php get_admin_url('tools.php?page=ChildThemeWizard'); ?>">try again?</a></p></strong></div>
+    
+            <?php
+		} else {
+			// everything went fine
+			?>
+			<div class="updated">
+			 <strong>
+             <?php echo $status['message']; ?>
+             <p>
+			 <?php _e('Your Child Theme was created successfully!', 'ctw' ); ?>
+			 </strong></p></div>
+             <div>
+             <p>Head over to <a href="<?php echo admin_url('themes.php'); ?>">Appearance - Themes</a> to activate it.</p>
+             <p>Add your custom styles in <a href="<?php echo admin_url('theme-editor.php'); ?>">Appearance - Editor</a>.</p>
+			</div>
+			<?php 
+			}
+		} else {
+	
+		// display the new child theme dialogue 
 		?>
 
     <p>This simple wizard will help you generate a new <a href="https://codex.wordpress.org/Child_Themes" target="_blank">Child Theme</a> with just one click. </p>
     <p>Seletct which theme you want to use as a base, fill in the details and click &quot;Create Child Theme&quot;.</p>
-    
+    <hr>
     <form name="ctwform" method="post" action="">
     <input type="hidden" name="hiddenfield" value="Y">
     
@@ -168,7 +184,8 @@ function ctwMainFunction () {
     <?php // end of else
 		}
 		?>
-    
+        <br><hr><br>
+<!--    
 <div>
   <ul>
         <li>DONE: List all available themes as drop down</li>
@@ -176,7 +193,7 @@ function ctwMainFunction () {
         <li>DONE: submit button </li>
         <li>DONE: sanitize text fields</li>
         <li>DONE: function that creates the child theme directory and file</li>
-        <li>write contents to file</li>
+        <li>DONE: write contents to file</li>
         <li>create screenshot</li>
         <li>DONE: move to Tools and correct main function name</li>
         <li>update footer links</li>
@@ -186,13 +203,14 @@ function ctwMainFunction () {
         </li>
   </ul>
 </div>
+-->
     </div> <!-- end of main wrap -->
 
 <?php // display the footer ?>
 	<p><a href="http://wpguru.co.uk" target="_blank"><img src="<?php  
 	echo plugins_url('images/guru-header-2013.png', __FILE__); ?>" width="300"></a> </p>
 
-<p><a href="http://wpguru.co.uk/2010/12/disk-space-pie-chart-plugin/" target="_blank">Plugin by Jay Versluis</a> | <a href="http://www.peters1.dk/webtools/php/lagkage.php?sprog=en" target="_blank">Pie Chart Script by Rasmus Peters</a> | <a href="http://wphosting.tv" target="_blank">WP Hosting</a></p>
+<p><a href="http://wpguru.co.uk" target="_blank">Plugin by Jay Versluis</a> | <a href="https://github.com/versluis/Child-Theme-Wizard" target="_blank">Fork me or Contribute on GitHub</a> | <a href="http://wphosting.tv" target="_blank">WP Hosting</a></p>
 
 <p><span><!-- Social Buttons -->
 
@@ -227,15 +245,20 @@ function ctwMainFunction () {
  */
  
 function ctw_create_theme($childtheme) {
-	echo '<p>This function is outside the main function.</p>';
+	
+	// add messages to this variable
+	$status = array();
+	$status['alert'] = 0;
 	
 	// create the directory
 	$directory = get_theme_root() . '/' . sanitize_file_name($childtheme['title']);
-	echo '<p>The child theme directory will be created at ' . $directory;
+	// echo '<p>The child theme directory will be created at ' . $directory;
 	if (!mkdir($directory)) {
-		echo '<p>Something went wrong!</p>';
+		$status['message'] = "<p>Could not create directory. Does it exist already?</p>";
+		$status['alert'] = -1;
+		return $status;
 	} else {
-		echo '<p>Created directory successfully</p>';
+		$status['message'] = "<p>Directory created successfully.</p>";
 	}
 	
 	// create a file in our directory
@@ -262,10 +285,20 @@ function ctw_create_theme($childtheme) {
 	$data = $data . "\n--------------------------------------------*/\n\n";
 
 	// write data and close the file
-	fwrite($handle, $data);
+	if (fwrite($handle, $data) == false) {
+		$status['message'] = $status['message'] . "<p>There was a problem writing data to style.css.</p>";
+		$status['alert'] = -1;
+		return $status;
+	} else {
+		$status['message'] = "<p>Writing data... success!</p>";
+	}
 	fclose($handle);
 	
 	// create a nice screenshot 
+	$thumbnail_status = ctw_make_thumbnail($directory);
+	$status['message'] = $status['message'] . $thumbnail_status;
+	
+	return $status;
 }
 
 // return an array only of parent themes
@@ -286,38 +319,24 @@ function ctw_giveme_parents() {
 	return $parentThemes;
 }
 
+// create a new thumbnail
+function ctw_make_thumbnail($childpath) {
+	
+	// for now we'll just copy an existing image
+	$thumbnail = plugins_url('images/screenshot.png', __FILE__);
+	$destination = $childpath . '/screenshot.png';
+	if (!copy($thumbnail, $destination)) {
+		return "<p>Could not copy thumbnail image :-(</p>";
+	} else {
+		return "<p>Copied thumbnail file over - looking good!</p>";
+	}
+}
+
 // quick tests go here
 function ctw_testing($childtheme) {
 	
-	echo '<p>Include GPL is ' . $childtheme['include-gpl'] . '.</p>';
-	if ($childtheme['include-gpl'] == 'on') {
-		echo '<p>We will include the terms accordingly.</p>';
-	}
-	
-	// let's test which of our installed themes are child themes
-	$allThemes = wp_get_themes();
-	
-	echo '<ol>';
-	foreach ($allThemes as $theme) {
-		echo '<li>';
-		// print the theme title
-		echo $theme->get('Name');
-		// determine whether it's a child theme or not
-		if ($theme->parent() == false) {
-			echo ' is not a Child Theme.</li>';
-		} else {
-			echo ' is a Child Theme</li>';
-		}
-	}
-	echo '</ol>';
-	
-	// is the current theme a child theme?
-	$currentTheme = wp_get_theme();
-	if ($currentTheme->parent() == false) {
-		echo 'The current theme is not a child theme.';
-	} else {
-		echo 'The current theme is a child theme';
-	}
+	$directory = get_theme_root() . '/' . sanitize_file_name($childtheme['title']);
+	ctw_make_thumbnail($directory);
 }
 
 ?>
