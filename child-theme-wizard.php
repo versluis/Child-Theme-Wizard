@@ -78,8 +78,8 @@ function ctwMainFunction () {
 		);
 		
 		// let's see if this worked
-		ctw_create_theme($newchildtheme);
-		// ctw_testing($newchildtheme);
+		// ctw_create_theme($newchildtheme);
+		ctw_testing($newchildtheme);
 		
 		// Put a "settings updated" message on the screen 
 		?>
@@ -108,8 +108,9 @@ function ctwMainFunction () {
       <tr>
         <td>Parent Theme</td>
         <td><?php
-        // grab a list of all themes and iterate through them
-		$themes = wp_get_themes();
+        // grab a list of all parent themes and iterate through them
+		// $themes = wp_get_themes();
+		$themes = ctw_giveme_parents();
 		echo '<select name="parent">';
 		foreach ($themes as $theme) {
 			echo '<option value ="' . $theme->get_stylesheet() . '">' . $theme->get('Name') . '</option>';
@@ -180,7 +181,7 @@ function ctwMainFunction () {
         <li>DONE: move to Tools and correct main function name</li>
         <li>update footer links</li>
         <li>DONE: create Git reop</li>
-        <li>
+        <li>DONE: filter out child themes
      
         </li>
   </ul>
@@ -237,7 +238,7 @@ function ctw_create_theme($childtheme) {
 		echo '<p>Created directory successfully</p>';
 	}
 	
-	// write a file into the directory
+	// create a file in our directory
 	$filename = $directory . '/' . 'style.css';
 	$handle = fopen($filename, 'w');
 	
@@ -258,15 +259,31 @@ function ctw_create_theme($childtheme) {
 	
 	$data = $data . "\n*/\n\n" . '@import url("../' . $childtheme['parent'] . '/style.css");';
 	$data = $data . "\n\n /* == Add your own styles below this line ==";
-	$data = $data . "\n------------------------------------------------*/\n\n";
-	
-	
-	
+	$data = $data . "\n--------------------------------------------*/\n\n";
+
+	// write data and close the file
 	fwrite($handle, $data);
-	
-	// close the file
 	fclose($handle);
 	
+	// create a nice screenshot 
+}
+
+// return an array only of parent themes
+function ctw_giveme_parents() {
+	
+	// first we'll grab all installed themes
+	$allThemes = wp_get_themes();
+	$parentThemes = array();
+	
+	// next we'll add all parents and return the result
+	foreach ($allThemes as $theme) {
+		
+		if ($theme->parent() == false) {
+			$parentThemes[] = $theme;
+		}
+	}
+	
+	return $parentThemes;
 }
 
 // quick tests go here
@@ -275,6 +292,31 @@ function ctw_testing($childtheme) {
 	echo '<p>Include GPL is ' . $childtheme['include-gpl'] . '.</p>';
 	if ($childtheme['include-gpl'] == 'on') {
 		echo '<p>We will include the terms accordingly.</p>';
+	}
+	
+	// let's test which of our installed themes are child themes
+	$allThemes = wp_get_themes();
+	
+	echo '<ol>';
+	foreach ($allThemes as $theme) {
+		echo '<li>';
+		// print the theme title
+		echo $theme->get('Name');
+		// determine whether it's a child theme or not
+		if ($theme->parent() == false) {
+			echo ' is not a Child Theme.</li>';
+		} else {
+			echo ' is a Child Theme</li>';
+		}
+	}
+	echo '</ol>';
+	
+	// is the current theme a child theme?
+	$currentTheme = wp_get_theme();
+	if ($currentTheme->parent() == false) {
+		echo 'The current theme is not a child theme.';
+	} else {
+		echo 'The current theme is a child theme';
 	}
 }
 
