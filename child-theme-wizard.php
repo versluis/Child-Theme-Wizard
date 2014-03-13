@@ -35,7 +35,7 @@ function ctw_menu() {
 	// explained here: http://codex.wordpress.org/Function_Reference/wp_enqueue_script
 	// and here: http://pippinsplugins.com/loading-scripts-correctly-in-the-wordpress-admin/
 	global $starter_plugin_admin_page;
-	$starter_plugin_admin_page = add_submenu_page ('index.php', __('Child Theme Wizard', 'ctw'), __('Child Theme Wizard', 'ctw'), 'manage_options', 'ctwMainFunction', 'ctwMainFunction');
+	$starter_plugin_admin_page = add_submenu_page ('tools.php', __('Child Theme Wizard', 'ctw'), __('Child Theme Wizard', 'ctw'), 'manage_options', 'ChildThemeWizard', 'ctwMainFunction');
 }
 add_action('admin_menu', 'ctw_menu');
 
@@ -74,10 +74,12 @@ function ctwMainFunction () {
 		'author'      => sanitize_text_field($_POST['author']),
 		'author-url'  => sanitize_text_field($_POST['author-url']),
 		'version'     => sanitize_text_field($_POST['version']),
+		'include-gpl' => $_POST['include-gpl'],
 		);
 		
 		// let's see if this worked
-		ctw_testing($newchildtheme);
+		ctw_create_theme($newchildtheme);
+		// ctw_testing($newchildtheme);
 		
 		// Put a "settings updated" message on the screen 
 		?>
@@ -109,8 +111,8 @@ function ctwMainFunction () {
         // grab a list of all themes and iterate through them
 		$themes = wp_get_themes();
 		echo '<select name="parent">';
-		foreach ($themes as $title) {
-			echo '<option value ="' . $title . '">' . $title . '</option>';
+		foreach ($themes as $theme) {
+			echo '<option value ="' . $theme->get_stylesheet() . '">' . $theme->get('Name') . '</option>';
 		}
 		echo '</select>';
         ?></td>
@@ -127,9 +129,9 @@ function ctwMainFunction () {
         <td><em>a few notes about your Child Theme</em></td>
       </tr>
       <tr>
-        <td>URL</td>
+        <td>Child Theme URL</td>
         <td><input type="text" name="url" value="" size="20"></td>
-        <td><em>does it have a website?</em></td>
+        <td><em>does it have a website or release post?</em></td>
       </tr>
       <tr>
         <td>Author</td>
@@ -148,8 +150,13 @@ function ctwMainFunction () {
       </tr>
       <tr>
         <td>Include GPL License</td>
-        <td><input type="text" name="version" value="1.0" size="20"></td>
-        <td><em>tick to include GPL License link</em></td>
+        <td>
+        <select name="include-gpl">
+        <option value="on">Yes Please!</option>
+        <option value="off">No Thanks</option>
+        </select>
+        </td>
+        <td><em></em></td>
       </tr>
     </table>
     
@@ -170,9 +177,12 @@ function ctwMainFunction () {
         <li>DONE: function that creates the child theme directory and file</li>
         <li>write contents to file</li>
         <li>create screenshot</li>
-        <li>move to Tools and correct main function name</li>
+        <li>DONE: move to Tools and correct main function name</li>
         <li>update footer links</li>
-        <li>create Git reop</li>
+        <li>DONE: create Git reop</li>
+        <li>
+     
+        </li>
   </ul>
 </div>
     </div> <!-- end of main wrap -->
@@ -215,13 +225,12 @@ function ctwMainFunction () {
  * this function creates the new directory and file
  */
  
-function ctw_testing($childtheme) {
+function ctw_create_theme($childtheme) {
 	echo '<p>This function is outside the main function.</p>';
-	// var_dump($childtheme);
 	
 	// create the directory
 	$directory = get_theme_root() . '/' . sanitize_file_name($childtheme['title']);
-	echo '<p>The child theme directory would be ' . $directory;
+	echo '<p>The child theme directory will be created at ' . $directory;
 	if (!mkdir($directory)) {
 		echo '<p>Something went wrong!</p>';
 	} else {
@@ -238,14 +247,16 @@ function ctw_testing($childtheme) {
 	$data = $data . "\n Description:  " . $childtheme['description'];
 	$data = $data . "\n Author        " . $childtheme['author'];
 	$data = $data . "\n Author URI:   " . $childtheme['author-url'];
-	$data = $data . "\n Template:     " . $childtheme['url'];
+	$data = $data . "\n Template:     " . $childtheme['parent'];
 	$data = $data . "\n Version:      " . $childtheme['version'];
 	
 	// insert GPL License Terms
-	$data = $data . "\n License:      GNU General Public License v2 or later";
-	$data = $data . "\n License URI:  http://www.gnu.org/licenses/gpl-2.0.html";
+	if ($childtheme['include-gpl'] == 'on') {
+		$data = $data . "\n License:      GNU General Public License v2 or later";
+	    $data = $data . "\n License URI:  http://www.gnu.org/licenses/gpl-2.0.html";
+	}
 	
-	$data = $data . "\n*/\n\n" . '@import url("../twentyfourteen/style.css");';
+	$data = $data . "\n*/\n\n" . '@import url("../' . $childtheme['parent'] . '/style.css");';
 	$data = $data . "\n\n /* == Add your own styles below this line ==";
 	$data = $data . "\n------------------------------------------------*/\n\n";
 	
@@ -258,6 +269,13 @@ function ctw_testing($childtheme) {
 	
 }
 
-
+// quick tests go here
+function ctw_testing($childtheme) {
+	
+	echo '<p>Include GPL is ' . $childtheme['include-gpl'] . '.</p>';
+	if ($childtheme['include-gpl'] == 'on') {
+		echo '<p>We will include the terms accordingly.</p>';
+	}
+}
 
 ?>
