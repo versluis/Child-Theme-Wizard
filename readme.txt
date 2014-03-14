@@ -31,7 +31,7 @@ You have the option to include GPL License Terms if you wish. The Wizard will au
 
 1. create a Child Theme with just one click
 1. the wizard was successful
-1. here's our new theme, ready to be used
+1. you also get a nice thumbnail with your new child theme
 
 
 == Changelog ==

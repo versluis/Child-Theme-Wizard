@@ -269,7 +269,7 @@ function ctw_create_theme($childtheme) {
 	$data = "/* \n Theme Name:   " . $childtheme['title'];
 	$data = $data . "\n Theme URI:    " . $childtheme['url'];
 	$data = $data . "\n Description:  " . $childtheme['description'];
-	$data = $data . "\n Author        " . $childtheme['author'];
+	$data = $data . "\n Author:       " . $childtheme['author'];
 	$data = $data . "\n Author URI:   " . $childtheme['author-url'];
 	$data = $data . "\n Template:     " . $childtheme['parent'];
 	$data = $data . "\n Version:      " . $childtheme['version'];
