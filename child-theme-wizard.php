@@ -261,7 +261,7 @@ function ctw_create_theme($childtheme) {
 		$status['message'] = "<p>Directory created successfully.</p>";
 	}
 	
-	// create a file in our directory
+	// create style.css in our directory
 	$filename = $directory . '/' . 'style.css';
 	$handle = fopen($filename, 'w');
 	
@@ -290,7 +290,28 @@ function ctw_create_theme($childtheme) {
 		$status['alert'] = -1;
 		return $status;
 	} else {
-		$status['message'] = "<p>Writing data... success!</p>";
+		$status['message'] = $status['message'] . "<p>Writing data to style.css...</p>";
+	}
+	fclose($handle);
+	
+	// create functions.php
+	$filename = $directory . '/' . 'functions.php';
+	$handle = fopen($filename, 'w');
+	
+	// add some meta data 
+	$data = "<?php /*\n\n  This file is part of a child theme called " . $childtheme['title'] . ".";
+	$data = $data . "\n  Functions in this file will be loaded before the parent theme's functions.";
+	$data = $data . "\n  For more information, please read https://codex.wordpress.org/Child_Themes.";
+	$data = $data . "\n\n  Add your own functions below this line.";
+	$data = $data . "\n  ========================================== */ \n\n";
+	
+	// write data and close the file
+	if (fwrite($handle, $data) == false) {
+		$status['message'] = $status['message'] . "<p>There was a problem writing data to functions.php.</p>";
+		$status['alert'] = -1;
+		return $status;
+	} else {
+		$status['message'] = $status['message'] . "<p>Writing data to functions.php...</p>";
 	}
 	fclose($handle);
 	
