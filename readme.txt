@@ -18,6 +18,8 @@ Specify a parent theme, customise options such as title and description and clic
 
 You have the option to include GPL License Terms if you wish. The Wizard will automatically create a thumbnail too. In future versions I may include an image uplaoder for this feature.
 
+To find out more about Child Themes and why they are important please read https://codex.wordpress.org/Child_Themes
+
 == Installation ==
 
 1. Either: Upload the entire folder `child-theme-wizard` to the `/wp-content/plugins/` directory. 
