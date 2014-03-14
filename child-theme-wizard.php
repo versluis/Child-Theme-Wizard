@@ -210,7 +210,7 @@ function ctwMainFunction () {
 	<p><a href="http://wpguru.co.uk" target="_blank"><img src="<?php  
 	echo plugins_url('images/guru-header-2013.png', __FILE__); ?>" width="300"></a> </p>
 
-<p><a href="http://wpguru.co.uk" target="_blank">Plugin by Jay Versluis</a> | <a href="https://github.com/versluis/Child-Theme-Wizard" target="_blank">Fork me or Contribute on GitHub</a> | <a href="http://wphosting.tv" target="_blank">WP Hosting</a></p>
+<p><a href="http://wpguru.co.uk/2014/03/introducing-child-theme-wizard-for-wordpress/" target="_blank">Plugin by Jay Versluis</a> | <a href="https://github.com/versluis/Child-Theme-Wizard" target="_blank">Fork me or Contribute on GitHub</a> | <a href="http://wphosting.tv" target="_blank">WP Hosting</a></p>
 
 <p><span><!-- Social Buttons -->
 
