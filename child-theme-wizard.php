@@ -127,9 +127,15 @@ function ctwMainFunction () {
         // grab a list of all parent themes and iterate through them
 		// $themes = wp_get_themes();
 		$themes = ctw_giveme_parents();
+		$currentTheme = wp_get_theme();
 		echo '<select name="parent">';
 		foreach ($themes as $theme) {
-			echo '<option value ="' . $theme->get_stylesheet() . '">' . $theme->get('Name') . '</option>';
+			// if it's the current theme, make it selected
+			if($currentTheme->get('Name') == $theme->get('Name')) {
+				echo '<option value ="' . $theme->get_stylesheet() . '" selected>' . $theme->get('Name') . ' (currently active)</option>';
+			} else {
+				echo '<option value ="' . $theme->get_stylesheet() . '">' . $theme->get('Name') . '</option>';
+			}
 		}
 		echo '</select>';
         ?></td>
