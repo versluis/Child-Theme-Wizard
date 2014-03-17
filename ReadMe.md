@@ -19,5 +19,7 @@ Further Reading
 
 My Release Post: http://wpguru.co.uk/2014/03/introducing-child-theme-wizard-for-wordpress/
 
+Watch the video: http://youtu.be/n1ll6LkRrnA
+
 WordPress article about Child Themes and why you should use them: https://codex.wordpress.org/Child_Themes
 
