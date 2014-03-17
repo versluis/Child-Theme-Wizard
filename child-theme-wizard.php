@@ -56,8 +56,8 @@ function ctwMainFunction () {
     
     <?php
     
-	// check if the button has been pressed 
-	if( isset($_POST[ 'hiddenfield' ]) && $_POST[ 'hiddenfield' ] == 'Y' ) {
+	// check if the create button was pressed 
+	if( isset($_POST[ 'Submit' ]) && $_POST[ 'hiddenfield' ] == 'Y' ) {
 		
 		// call function with sanitized values
 		$newchildtheme = array(
@@ -102,6 +102,37 @@ function ctwMainFunction () {
 			</div>
 			<?php 
 			}
+		
+		} elseif (isset($_POST['Export'])) {
+			
+		// check if the Export button was pressed
+		echo '<p>To export an existing theme, pick one from the list and click "ZIP Up and Download".</p>';
+		
+		// display a list of installed themes, including child themes
+		?><form name="export-themes" method="post" action="">
+		<select name="new-theme"><?php
+		$allThemes = wp_get_themes();
+		$currentTheme = wp_get_theme();
+		foreach ($allThemes as $theme) {
+			if($currentTheme->get('Name') == $theme->get('Name')) {
+				echo '<option value ="' . $theme->get_stylesheet() . '" selected>' . $theme->get('Name') . ' (currently active)</option>';
+			} else {
+				echo '<option value ="' . $theme->get_stylesheet() . '">' . $theme->get('Name') . '</option>';
+			}
+		}
+		// submit button
+		?></select><p class="submit">
+        <input type="submit" name="Download" class="button-primary" value="ZIP Up and Download" />
+        </p></form>
+        
+        <?php
+			
+		} elseif (isset($_POST['Download'])) {
+			
+		// check if the Download button was pressed
+		// zip up the selected theme
+		ctw_download_theme($_POST['new-theme']);
+			
 		} else {
 	
 		// display the new child theme dialogue 
@@ -125,7 +156,6 @@ function ctwMainFunction () {
         <td>Parent Theme</td>
         <td><?php
         // grab a list of all parent themes and iterate through them
-		// $themes = wp_get_themes();
 		$themes = ctw_giveme_parents();
 		$currentTheme = wp_get_theme();
 		echo '<select name="parent">';
@@ -185,10 +215,14 @@ function ctwMainFunction () {
     
     <p class="submit">
     <input type="submit" name="Submit" class="button-primary" value="<?php esc_attr_e('Create Child Theme') ?>" />
+    &nbsp;&nbsp;
+    <input type="submit" name="Export" class="button-secondary" value="Export an existing Theme" />
     </p>
+    
     
     <?php // end of else
 		}
+		
 		?>
         <br><hr><br>
 <!--    
@@ -357,6 +391,11 @@ function ctw_make_thumbnail($childpath) {
 	} else {
 		return "<p>Copied thumbnail file over - looking good!</p>";
 	}
+}
+
+// zip up and download the current theme
+function ctw_download_theme ($selectedTheme) {
+	echo "<p>We're zipping this thing up right here - you've selected " . $selectedTheme . "</p>";
 }
 
 // quick tests go here
