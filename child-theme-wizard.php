@@ -396,6 +396,30 @@ function ctw_make_thumbnail($childpath) {
 // zip up and download the current theme
 function ctw_download_theme ($selectedTheme) {
 	echo "<p>We're zipping this thing up right here - you've selected " . $selectedTheme . "</p>";
+	
+	// define oaths and file names
+	$rootPath = get_theme_root() . '/' . $selectedTheme;
+	$archiveName = $rootPath . '.zip';
+	
+	// initialize the ZIP archive
+	$zip = new ZipArchive;
+	$zip->open($archiveName, ZipArchive::CREATE);
+	
+	// create recursive directory iterator
+	$files = new RecursiveIteratorIterator (new RecursiveDirectoryIterator($rootPath), RecursiveIteratorIterator::LEAVES_ONLY);
+	
+	// let's iterate and add files to the archive
+	foreach ($files as $name) {
+		$new_filename = substr($name,strrpos($name,'/') + 1);
+		$zip->addFile($name, $new_filename);
+	}
+	
+	// close the zip file
+	if (!$zip->close()) {
+		echo '<p>There was a problem writing the ZIP archive.</p>';
+	} else {
+		echo '<p>Successfully created the ZIP Archive!</p>';
+	}
 }
 
 // quick tests go here
