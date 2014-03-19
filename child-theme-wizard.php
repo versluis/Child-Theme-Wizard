@@ -126,6 +126,8 @@ function ctwMainFunction () {
         </p></form>
         
         <?php
+		
+		ctw_list_zipfiles();
 			
 		} elseif (isset($_POST['Download'])) {
 			
@@ -393,7 +395,7 @@ function ctw_make_thumbnail($childpath) {
 	}
 }
 
-// zip up and download the current theme
+// zip up the current theme and save it in wp-content/themes
 function ctw_download_theme ($selectedTheme) {
 	echo "<p>We're zipping this thing up right here - you've selected " . $selectedTheme . "</p>";
 	
@@ -422,11 +424,42 @@ function ctw_download_theme ($selectedTheme) {
 	}
 }
 
+// list zip files, display download links and offer deletions
+function ctw_list_zipfiles() {
+	
+	// directory we want to scan
+	$themesdir = get_theme_root();
+	$dircontents = scandir($themesdir);
+	
+	// print the contents
+	echo '<ul>';
+	foreach ($dircontents as $file) {
+		
+		$extension = pathinfo($file, PATHINFO_EXTENSION);
+		$filesize = filesize($themesdir . '/' . $file); // bytes
+		$filesize = round($filesize / 1024 / 1024, 1); // megabytes
+		
+		$lastaccess = fileatime($themesdir . '/' . $file);
+		$lastaccess = date("F j, Y, g:i a", $lastaccess);
+		
+		if ($extension == 'zip') {
+			echo "<li>$file Size: $filesize MB - last accessed: $lastaccess</li>";
+		}
+	}
+	echo '</ul>';
+}
+
 // quick tests go here
 function ctw_testing($childtheme) {
 	
 	$directory = get_theme_root() . '/' . sanitize_file_name($childtheme['title']);
 	ctw_make_thumbnail($directory);
+	
+$file = '/path/to/your/file';
+$filesize = filesize($file); // bytes
+$filesize = round($filesize / 1024 / 1024, 1); // megabytes
+
+echo "The size of your file is $filesize MB.";
 }
 
 ?>
