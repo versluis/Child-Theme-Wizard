@@ -3,7 +3,7 @@
  * Plugin Name: Child Theme Wizard
  * Plugin URI: http://wpguru.co.uk
  * Description: Creates a child theme from any theme you have installed
- * Version: 1.0
+ * Version: 1.1
  * Author: Jay Versluis
  * Author URI: http://wpguru.co.uk
  * License: GPL2
@@ -286,7 +286,8 @@ function ctw_create_theme($childtheme) {
 	    $data = $data . "\n License URI:  http://www.gnu.org/licenses/gpl-2.0.html";
 	}
 	
-	$data = $data . "\n*/\n\n" . '@import url("../' . $childtheme['parent'] . '/style.css");';
+	// adding the call to the parent style sheet in CSS is no longer best practice
+	// $data = $data . "\n*/\n\n" . '@import url("../' . $childtheme['parent'] . '/style.css");';
 	$data = $data . "\n\n /* == Add your own styles below this line ==";
 	$data = $data . "\n--------------------------------------------*/\n\n";
 
@@ -308,8 +309,17 @@ function ctw_create_theme($childtheme) {
 	$data = "<?php /*\n\n  This file is part of a child theme called " . $childtheme['title'] . ".";
 	$data = $data . "\n  Functions in this file will be loaded before the parent theme's functions.";
 	$data = $data . "\n  For more information, please read https://codex.wordpress.org/Child_Themes.";
-	$data = $data . "\n\n  Add your own functions below this line.";
-	$data = $data . "\n  ========================================== */ \n\n";
+	$data = $data . "\n\n*/";
+	
+	// add call to enqueue parent style sheet via functions.php
+	$data = $data . "\n\n// this code loads the parent's stylesheet (leave it in place unless you know what you're doing)";
+	$data = $data . "\n\nfunction theme_enqueue_styles() {";
+	$data = $data . "\n    wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css');";
+	$data = $data . "\n    wp_enqueue_style('child-style', get_stylesheet_directory_uri() . '/style.css', array(". '$parent_style' ."));\n}";
+	$data = $data . "\nadd_action('wp_enqueue_scripts', 'theme_enqueue_styles');";
+	
+	$data = $data . "\n\n/*  Add your own functions below this line.";
+	$data = $data . "\n    ======================================== */ \n\n";
 	
 	// write data and close the file
 	if (fwrite($handle, $data) == false) {
