@@ -108,7 +108,7 @@ function ctwMainFunction () {
 		?>
 
     <p>This simple wizard will help you generate a new <a href="https://codex.wordpress.org/Child_Themes" target="_blank">Child Theme</a> with just one click. </p>
-    <p>Seletct which theme you want to use as a base, fill in the details and click &quot;Create Child Theme&quot;.</p>
+    <p>Select which theme you want to use as a base, fill in the details and click &quot;Create Child Theme&quot;.</p>
     <hr>
     <form name="ctwform" method="post" action="">
     <input type="hidden" name="hiddenfield" value="Y">
