@@ -296,15 +296,15 @@ function ctw_create_theme($childtheme) {
 	// add call to enqueue parent style sheet via functions.php
 	$data = $data . "\n\n// this code loads the parent's stylesheet (leave it in place unless you know what you're doing)";
 	$data = $data . "\n\nfunction your_theme_enqueue_styles() {";
-	$data = $data . "\n    wp_enqueue_style('parent-style', \n
-	get_template_directory_uri() . '/style.css');";
-	$data = $data . "\n    wp_enqueue_style('child-style', \n
-	get_stylesheet_directory_uri() . '/style.css', \n
-	array(". '$parent_style' ."), \n
-	wp_get_theme()->get('Version') \n
-	);\n}";
-	$data = $data . "\n
-	add_action('wp_enqueue_scripts', 'your_theme_enqueue_styles');";
+	$data = $data . "\n    wp_enqueue_style( 'parent-style', \n";
+	$data = $data . "    get_template_directory_uri() . '/style.css'); \n";
+	
+	$data = $data . "\n    wp_enqueue_style( 'child-style', \n";
+	$data = $data . "    get_stylesheet_directory_uri() . '/style.css', \n";
+	$data = $data . "    array(". '$parent_style' ."), \n";
+	$data = $data . "    wp_get_theme()->get('Version') \n";
+	$data = $data . "    );\n}";
+	$data = $data . "\n\nadd_action('wp_enqueue_scripts', 'your_theme_enqueue_styles');";
 	
 	$data = $data . "\n\n/*  Add your own functions below this line.";
 	$data = $data . "\n    ======================================== */ \n\n";
