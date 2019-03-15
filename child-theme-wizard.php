@@ -1,16 +1,16 @@
 <?php
 /**
  * Plugin Name: Child Theme Wizard
- * Plugin URI: http://wpguru.co.uk
+ * Plugin URI: https://wpguru.tv
  * Description: Creates a child theme from any theme you have installed
- * Version: 1.1
+ * Version: 1.2
  * Author: Jay Versluis
- * Author URI: http://wpguru.co.uk
+ * Author URI: https://wpguru.tv
  * License: GPL2
  * License URI:  http://www.gnu.org/licenses/gpl-2.0.html
  */
  
-/*  Copyright 2013  Jay Versluis (email support@wpguru.co.uk)
+/*  Copyright 2013-2019  Jay Versluis (email support@wpguru.tv)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -213,10 +213,10 @@ function ctwMainFunction () {
     </div> <!-- end of main wrap -->
 
 <?php // display the footer ?>
-	<p><a href="http://wpguru.co.uk" target="_blank"><img src="<?php  
+	<p><a href="https://wpguru.co.uk" target="_blank"><img src="<?php  
 	echo plugins_url('images/guru-header-2013.png', __FILE__); ?>" width="300"></a> </p>
 
-<p><a href="http://wpguru.co.uk/2014/03/introducing-child-theme-wizard-for-wordpress/" target="_blank">Plugin by Jay Versluis</a> | <a href="https://github.com/versluis/Child-Theme-Wizard" target="_blank">Fork me or Contribute on GitHub</a> | <a href="http://wphosting.tv" target="_blank">WP Hosting</a></p>
+<p><a href="https://wpguru.co.uk/2014/03/introducing-child-theme-wizard-for-wordpress/" target="_blank">Plugin by Jay Versluis</a> | <a href="https://github.com/versluis/Child-Theme-Wizard" target="_blank">Fork me or Contribute on GitHub</a> | <a href="https://patreon.com/versluis" target="_blank">Support Me</a></p>
 
 <p><span><!-- Social Buttons -->
 
