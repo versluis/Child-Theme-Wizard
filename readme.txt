@@ -1,12 +1,12 @@
 === Child Theme Wizard ===
 Contributors: versluis
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=34B76TPRWMWAE
+Donate link: https:patreon.com/versluis
 Tags: child theme, generator, creator, one click, starter
 Requires at least: 3.4
-Tested up to: 4.4
-Stable tag: 1.1
+Tested up to: 5.1
+Stable tag: 1.3
 License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Creates a child theme with one click and lets you customise its options. 
 
@@ -37,6 +37,14 @@ To find out more about Child Themes and why they are important please read https
 
 
 == Changelog ==
+
+= 1.3 =
+* tested compatibility with WordPress 5.1
+* updated link to Codex
+* added version query as suggested in Codex as of 2019
+
+= 1.2 =
+* corrected a spelling mistake (thanks, Cory!)
 
 = 1.1 =
 * the parent theme is now queued via functions.php
