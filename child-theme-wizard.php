@@ -198,12 +198,13 @@ function ctwMainFunction () {
 	<p><a href="https://wpguru.co.uk" target="_blank"><img src="<?php  
 	echo plugins_url('images/guru-header-2013.png', __FILE__); ?>" width="300"></a> </p>
 
-<p><a href="https://wpguru.co.uk/2014/03/introducing-child-theme-wizard-for-wordpress/" target="_blank">Plugin by Jay Versluis</a> | <a href="https://github.com/versluis/Child-Theme-Wizard" target="_blank">Fork me or Contribute on GitHub</a> | <a href="https://patreon.com/versluis" target="_blank">Support Me</a></p>
+<p><a href="https://wpguru.co.uk/2014/03/introducing-child-theme-wizard-for-wordpress/" target="_blank">Plugin by Jay Versluis</a> | <a href="https://github.com/versluis/Child-Theme-Wizard" target="_blank">Fork me or Contribute on GitHub</a> | <a href="https://patreon.com/versluis" target="_blank">Support me on Patreon</a></p>
 
 <p><span><!-- Social Buttons -->
 
-<!-- Google+ -->
-<div class="g-follow" data-annotation="bubble" data-height="20" data-href="//plus.google.com/116464794189222694062" data-rel="author"></div>
+<!-- YouTube -->
+<script src="https://apis.google.com/js/platform.js"></script>
+<div class="g-ytsubscribe" data-channel="wphosting"></div>
 
 <!-- Place this tag after the last widget tag. -->
 <script type="text/javascript">
