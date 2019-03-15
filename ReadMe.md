@@ -1,4 +1,4 @@
-﻿Child Theme Wizard
+Child Theme Wizard
 ==================
 
 A WordPress plugin that creates a new Child Theme with one click from the admin interface.
@@ -17,7 +17,7 @@ The Wizard will automatically create a basic thumbnail too. In future versions I
 Further Reading
 ===============
 
-My Release Post: http://wpguru.co.uk/2014/03/introducing-child-theme-wizard-for-wordpress/
+My Release Post: https://wpguru.co.uk/2014/03/introducing-child-theme-wizard-for-wordpress/
 
 Watch the video: http://youtu.be/n1ll6LkRrnA
 
