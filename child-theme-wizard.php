@@ -3,7 +3,7 @@
  * Plugin Name: Child Theme Wizard
  * Plugin URI: https://wpguru.tv
  * Description: Creates a child theme from any theme you have installed
- * Version: 1.3
+ * Version: 1.4 Beta
  * Author: Jay Versluis
  * Author URI: https://wpguru.tv
  * License: GPL2
@@ -107,7 +107,7 @@ function ctwMainFunction () {
 		// display the new child theme dialogue 
 		?>
 
-    <p>This simple wizard will help you generate a new <a href="https://codex.wordpress.org/Child_Themes" target="_blank">Child Theme</a> with just one click. </p>
+    <p>This simple wizard will help you generate a new <a href="https://developer.wordpress.org/themes/advanced-topics/child-themes/" target="_blank">Child Theme</a> with just one click. </p>
     <p>Select which theme you want to use as a base, fill in the details and click &quot;Create Child Theme&quot;.</p>
     <hr>
     <form name="ctwform" method="post" action="">
@@ -291,19 +291,24 @@ function ctw_create_theme($childtheme) {
 	// add some meta data 
 	$data = "<?php /*\n\n  This file is part of a child theme called " . $childtheme['title'] . ".";
 	$data = $data . "\n  Functions in this file will be loaded before the parent theme's functions.";
-	$data = $data . "\n  For more information, please read https://developer.wordpress.org/themes/advanced-topics/child-themes/";
+	$data = $data . "\n  For more information, please read";
+	$data = $data . "\n  https://developer.wordpress.org/themes/advanced-topics/child-themes/";
 	$data = $data . "\n\n*/";
 	
 	// add call to enqueue parent style sheet via functions.php
 	$data = $data . "\n\n// this code loads the parent's stylesheet (leave it in place unless you know what you're doing)";
 	$data = $data . "\n\nfunction your_theme_enqueue_styles() {";
-	$data = $data . "\n    wp_enqueue_style( 'parent-style', \n";
-	$data = $data . "    get_template_directory_uri() . '/style.css'); \n";
+	
+	// @since 1.4: define $parent_style
+	$data = $data . "\n\n    " . '$parent_style' . " = 'parent-style';";
+	
+	$data = $data . "\n\n    wp_enqueue_style( " . '$parent_style' . ", \n";
+	$data = $data . "      get_template_directory_uri() . '/style.css'); \n";
 	
 	$data = $data . "\n    wp_enqueue_style( 'child-style', \n";
-	$data = $data . "    get_stylesheet_directory_uri() . '/style.css', \n";
-	$data = $data . "    array(". '$parent_style' ."), \n";
-	$data = $data . "    wp_get_theme()->get('Version') \n";
+	$data = $data . "      get_stylesheet_directory_uri() . '/style.css', \n";
+	$data = $data . "      array(". '$parent_style' ."), \n";
+	$data = $data . "      wp_get_theme()->get('Version') \n";
 	$data = $data . "    );\n}";
 	$data = $data . "\n\nadd_action('wp_enqueue_scripts', 'your_theme_enqueue_styles');";
 	
