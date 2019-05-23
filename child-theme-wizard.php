@@ -3,7 +3,7 @@
  * Plugin Name: Child Theme Wizard
  * Plugin URI: https://wpguru.tv
  * Description: Creates a child theme from any theme you have installed
- * Version: 1.3
+ * Version: 1.4 Beta
  * Author: Jay Versluis
  * Author URI: https://wpguru.tv
  * License: GPL2
@@ -107,7 +107,7 @@ function ctwMainFunction () {
 		// display the new child theme dialogue 
 		?>
 
-    <p>This simple wizard will help you generate a new <a href="https://codex.wordpress.org/Child_Themes" target="_blank">Child Theme</a> with just one click. </p>
+    <p>This simple wizard will help you generate a new <a href="https://developer.wordpress.org/themes/advanced-topics/child-themes/" target="_blank">Child Theme</a> with just one click. </p>
     <p>Select which theme you want to use as a base, fill in the details and click &quot;Create Child Theme&quot;.</p>
     <hr>
     <form name="ctwform" method="post" action="">
