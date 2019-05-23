@@ -291,7 +291,8 @@ function ctw_create_theme($childtheme) {
 	// add some meta data 
 	$data = "<?php /*\n\n  This file is part of a child theme called " . $childtheme['title'] . ".";
 	$data = $data . "\n  Functions in this file will be loaded before the parent theme's functions.";
-	$data = $data . "\n  For more information, please read https://developer.wordpress.org/themes/advanced-topics/child-themes/";
+	$data = $data . "\n  For more information, please read";
+	$data = $data . "\n  https://developer.wordpress.org/themes/advanced-topics/child-themes/";
 	$data = $data . "\n\n*/";
 	
 	// add call to enqueue parent style sheet via functions.php
