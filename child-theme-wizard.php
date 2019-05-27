@@ -3,7 +3,7 @@
  * Plugin Name: Child Theme Wizard
  * Plugin URI: https://wpguru.tv
  * Description: Creates a child theme from any theme you have installed
- * Version: 1.4 Beta
+ * Version: 1.4
  * Author: Jay Versluis
  * Author URI: https://wpguru.tv
  * License: GPL2
