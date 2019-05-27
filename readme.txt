@@ -3,8 +3,8 @@ Contributors: versluis
 Donate link: https:patreon.com/versluis
 Tags: child theme, generator, creator, one click, starter
 Requires at least: 3.4
-Tested up to: 5.1
-Stable tag: 1.3
+Tested up to: 5.2
+Stable tag: 1.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,10 @@ To find out more about Child Themes and why they are important please read https
 
 
 == Changelog ==
+
+= 1.4 =
+* defined the preivously undefined variable $parent_style (thanks, Marcin!)
+* updated links to WordPress Dev Docs
 
 = 1.3 =
 * tested compatibility with WordPress 5.1
