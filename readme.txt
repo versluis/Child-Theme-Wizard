@@ -1,14 +1,15 @@
 === Child Theme Wizard ===
 Contributors: versluis
-Donate link: https:patreon.com/versluis
+Donate link: https://patreon.com/versluis
 Tags: child theme, generator, creator, one click, starter
-Requires at least: 3.4
-Tested up to: 5.2
-Stable tag: 1.4
+Requires at least: 5.0
+Tested up to: 7.0
+Requires PHP: 7.4
+Stable tag: 1.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Creates a child theme with one click and lets you customise its options. 
+Creates a child theme from any installed parent theme with just one click.
 
 == Description ==
 
@@ -16,51 +17,54 @@ The Child Theme Wizard lets you create a new child theme without the need for ad
 
 Specify a parent theme, customise options such as title and description and click Create Child Theme. Upon success you will find your new theme under Appearance - Themes.
 
-You have the option to include GPL License Terms if you wish. The Wizard will automatically create a thumbnail too. In future versions I may include an image uploader for this feature.
+You have the option to include GPL License Terms if you wish. The Wizard will automatically create a thumbnail too.
 
-To find out more about Child Themes and why they are important please read https://codex.wordpress.org/Child_Themes
+To find out more about child themes and why they are useful, please read the [WordPress Developer Docs on Child Themes](https://developer.wordpress.org/themes/advanced-topics/child-themes/).
 
 == Installation ==
 
-1. Either: Upload the entire folder `child-theme-wizard` to the `/wp-content/plugins/` directory. 
-1. Or: download the ZIP file, then head over to Plugins - Add New - Install, then browse to your file
-1. Or: from Plugins - Add New, search for "child theme wizard", to find this plugin and hit "install"
-1. Then: Activate the plugin through the 'Plugins' menu in WordPress
-1. You can find it under Tools - Child Theme Wizard
-
+1. Either: Upload the entire folder `child-theme-wizard` to the `/wp-content/plugins/` directory.
+1. Or: download the ZIP file, then head over to Plugins - Add New - Upload Plugin, then browse to your file.
+1. Or: from Plugins - Add New, search for "child theme wizard" to find this plugin and hit Install.
+1. Then: Activate the plugin through the Plugins menu in WordPress.
+1. You can find it under Tools - Child Theme Wizard.
 
 == Screenshots ==
 
-1. create a Child Theme with just one click
-1. the wizard was successful
-1. you also get a nice thumbnail with your new child theme
-
+1. Create a Child Theme with just one click.
+2. The wizard completed successfully.
+3. Your new child theme appears under Appearance - Themes with a thumbnail.
 
 == Changelog ==
 
-= 1.5 = 
-* several security fixes related to HTML form and text input/output
-* fixed a couple of HTML bugs (missing tag and wrong argument order)
-* updated to several new WordPress coding standards
-* replaced PHP file operations with WordPress functions 
-* added PHP 8.2 return types
-* removed unused fuctions 
-* tested with WordPress 7.0 compatibilty  
+= 1.5 =
+* Security: added CSRF nonce protection to the creation form
+* Security: parent theme selection now validated server-side against installed themes
+* Security: all HTML output is now properly escaped
+* Fixed: incorrect admin URL argument that broke the "Try again" link
+* Fixed: missing closing </form> tag
+* Fixed: thumbnail copy now uses the filesystem path instead of an HTTP URL, fixing failures on hosts with allow_url_fopen disabled
+* Fixed: uninstall.php guard order corrected per WordPress standards
+* Replaced direct PHP file functions (fopen, fwrite, fclose, mkdir, copy) with WP_Filesystem API
+* Added PHP 8.2 return type declarations
+* Removed unused ctw_testing() function
+* Form layout updated to use WordPress standard form-table markup
+* Tested with WordPress 7.0
 
 = 1.4 =
-* defined the preivously undefined variable $parent_style (thanks, Marcin!)
-* updated links to WordPress Dev Docs
+* Defined the previously undefined variable $parent_style (thanks, Marcin!)
+* Updated links to WordPress Dev Docs
 
 = 1.3 =
-* tested compatibility with WordPress 5.1
-* updated link to Codex
-* added version query as suggested in Codex as of 2019
+* Tested compatibility with WordPress 5.1
+* Updated link to Codex
+* Added version query as suggested in Codex as of 2019
 
 = 1.2 =
-* corrected a spelling mistake (thanks, Cory!)
+* Corrected a spelling mistake (thanks, Cory!)
 
 = 1.1 =
-* the parent theme is now queued via functions.php
+* The parent theme stylesheet is now enqueued via functions.php
 
 = 1.0 =
-* Initial Release
+* Initial release
