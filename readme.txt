@@ -38,6 +38,15 @@ To find out more about Child Themes and why they are important please read https
 
 == Changelog ==
 
+= 1.5 = 
+* several security fixes related to HTML form and text input/output
+* fixed a couple of HTML bugs (missing tag and wrong argument order)
+* updated to several new WordPress coding standards
+* replaced PHP file operations with WordPress functions 
+* added PHP 8.2 return types
+* removed unused fuctions 
+* tested with WordPress 7.0 compatibilty  
+
 = 1.4 =
 * defined the preivously undefined variable $parent_style (thanks, Marcin!)
 * updated links to WordPress Dev Docs
